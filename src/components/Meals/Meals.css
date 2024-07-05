@@ -1,0 +1,66 @@
+.meal-container{
+    width: 100%;
+    height: 80vh;
+    background-color: #FAF0EF;
+}
+.all-meals-container{
+    width: 80%;
+}
+.all-meals {
+    width: 100%;
+    padding: 0 !important;
+    justify-content: space-between;
+}
+
+.selected{
+  border-radius: 10px;
+  border: 2px solid blue;
+}
+.weeks-container {
+    height: 100px;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center !important;
+  }
+  
+  .weeks {
+    width: 85%;
+    display: flex;
+    margin-right: 10px;
+  }
+  
+  .weeks li {
+    list-style: none;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 10px 15px;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .weeks li::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+    transition: width 0.3s;
+  }
+  
+  .weeks li:hover::after,
+  .weeks li:focus::after,
+  .weeks li.active::after {
+    width: 100%;
+  }
+  
+  .week-button {
+    padding: 10px 30px;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    background-color: #004370;
+  }
+  
