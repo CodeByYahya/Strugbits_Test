@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import MealsCard from "../MealCard/MealsCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Spinner } from "react-bootstrap";
 import "./Meals.css";
 
 const Meals = () => {
@@ -13,13 +13,15 @@ const Meals = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateKey, setUpdateKey] = useState(0); // New state variable for forcing updates
+  const [loading, setLoading] = useState(true); // State for managing loading state
 
   const [week1, setWeek1] = useState([9, 10]);
   const [week2, setWeek2] = useState([3, 4]);
   const [week3, setWeek3] = useState([5, 6]);
   const [week4, setWeek4] = useState([7, 8]);
+  // eslint-disable-next-line no-unused-vars
   const [allMealsIds, setAllMealsIds] = useState(
-    Array.from({ length: 10 }, (_, index) => index + 1)
+    Array.from({ length: 12 }, (_, index) => index + 1)
   );
 
   useEffect(() => {
@@ -29,8 +31,10 @@ const Meals = () => {
         const data = await response.json();
         setAllMeals(data.recipes);
         setMealsIDToShow(allMealsIds);
+        setLoading(false); // Set loading to false when data is fetched
       } catch (error) {
         console.error("Error fetching recipes:", error);
+        setLoading(false); // Set loading to false on error
       }
     };
     fetchRecipes();
@@ -62,7 +66,7 @@ const Meals = () => {
 
   const handleSelectWeek = (index) => {
     setSelectedWeekIndex(index === 0 ? null : index);
-    setUpdateKey(prevKey => prevKey + 1); // Update the state variable to trigger re-render
+    setUpdateKey((prevKey) => prevKey + 1); // Update the state variable to trigger re-render
   };
 
   const handleAddToWeek = () => {
@@ -224,22 +228,29 @@ const Meals = () => {
       <div className="meal-container d-flex justify-content-center flex-wrap">
         <div className="all-meals-container">
           <h2>{selectedWeekHeading}</h2>
-          <div className={`all-meals d-flex flex-wrap ${getAlignmentClass()}`}>
-            {getMealsToShow().map((meal) => (
-              <div
-                key={meal.id}
-                className={`meal-item ${
-                  selectedMeals.includes(meal.id) ? "selected" : ""
-                }`}
-              >
-                <MealsCard
-                  recipe={meal}
-                  onSelect={() => handleMealSelect(meal)}
-                  onDelete={handleDeleteMeal}
-                />
-              </div>
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center mt-5">
+              <Spinner animation="border" role="status">
+              </Spinner>
+            </div>
+          ) : (
+            <div className={`all-meals d-flex flex-wrap ${getAlignmentClass()}`}>
+              {getMealsToShow().map((meal) => (
+                <div
+                  key={meal.id}
+                  className={`meal-item ${
+                    selectedMeals.includes(meal.id) ? "selected" : ""
+                  }`}
+                >
+                  <MealsCard
+                    recipe={meal}
+                    onSelect={() => handleMealSelect(meal)}
+                    onDelete={handleDeleteMeal}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

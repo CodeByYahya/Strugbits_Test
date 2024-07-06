@@ -41,15 +41,23 @@
     width: 80%;
     font-size: 25px;
     font-weight: bold;
+    margin: 0;
     text-align: start;
   }
 
   
   
 
-  @media (max-width: 500px) {
+  @media (max-width: 550px) {
     .banner-heading{
       width: 80%;
+    }
+    .week-heading{
+      height: 50px;
+    }
+    .week-heading h3{
+      width: 95%;
+      font-size: 18px;
     }
   }
   

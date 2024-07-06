@@ -8,14 +8,10 @@ const MealsCard = ({ recipe, onSelect, onDelete }) => {
   const {
     id,
     name,
-    ingredients,
     instructions,
     cuisine,
     image,
     rating,
-    servings,
-    difficulty,
-    caloriesPerServing,
   } = recipe;
 
   const renderStars = () => {
@@ -32,19 +28,29 @@ const MealsCard = ({ recipe, onSelect, onDelete }) => {
     );
   };
 
+  const truncateInstructions = (instructions) => {
+    const combinedInstructions = instructions.join('. ') + '.';
+    return combinedInstructions.length > 100
+      ? combinedInstructions.substring(0, 100) + '...'
+      : combinedInstructions;
+  };
+
   return (
-    <div className="card meals-card" onClick={onSelect}  data-aos="zoom-in-down">
+    <div className="card meals-card" onClick={onSelect} data-aos="zoom-in-down">
       <div className="position-relative">
         <img src={image} className="card-img-top" alt={name} />
-        <AiOutlineDelete 
-          className="position-absolute top-0 end-0 m-2 text-danger delete-icon" 
-          onClick={(e) => { e.stopPropagation(); onDelete(id); }} 
+        <AiOutlineDelete
+          className="position-absolute top-0 end-0 m-2 text-danger delete-icon"
+          onClick={(e) => { e.stopPropagation(); onDelete(id); }}
         />
       </div>
       <div className="card-body">
-        <h5 className="card-title">    {name.length > 20 ? `${name.substring(0, 20).split(' ').slice(0, -1).join(' ')}...` : name}</h5>
-        <p className="card-text">{`${servings} servings | ${caloriesPerServing} calories per serving`}</p>
-        <p className="card-text">{`Difficulty: ${difficulty}`}</p>
+        <h5 className="card-title">
+          {name.length > 20 ? `${name.substring(0, 20).split(' ').slice(0, -1).join(' ')}...` : name}
+        </h5>
+        <p className="card-text">
+          {truncateInstructions(instructions)}
+        </p>
         <p className="card-text">{`Cuisine: ${cuisine}`}</p>
         {renderStars()}
       </div>
