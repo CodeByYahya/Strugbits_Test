@@ -1,9 +1,10 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
+
 import './MealsCard.css';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { AiOutlineDelete } from 'react-icons/ai'; // Import delete icon
 
-const MealsCard = ({ recipe, onSelect,onDelete }) => {
+const MealsCard = ({ recipe, onSelect, onDelete }) => {
   const {
     id,
     name,
@@ -27,16 +28,21 @@ const MealsCard = ({ recipe, onSelect,onDelete }) => {
         {Array(fullStars).fill(<FaStar className="text-warning" key="full-star" />)}
         {halfStar && <FaStarHalfAlt className="text-warning" key="half-star" />}
         {Array(emptyStars).fill(<FaRegStar className="text-warning" key="empty-star" />)}
-        <AiOutlineDelete className="delete-icon ms-auto text-danger" onClick={(e) => { e.stopPropagation(); onDelete(id); }} />
       </div>
     );
   };
 
   return (
-    <div className="card meals-card" onClick={onSelect}>
-      <img src={image} className="card-img-top" alt={name} />
+    <div className="card meals-card" onClick={onSelect}  data-aos="zoom-in-down">
+      <div className="position-relative">
+        <img src={image} className="card-img-top" alt={name} />
+        <AiOutlineDelete 
+          className="position-absolute top-0 end-0 m-2 text-danger delete-icon" 
+          onClick={(e) => { e.stopPropagation(); onDelete(id); }} 
+        />
+      </div>
       <div className="card-body">
-        <h5 className="card-title">{name}</h5>
+        <h5 className="card-title">    {name.length > 20 ? `${name.substring(0, 20).split(' ').slice(0, -1).join(' ')}...` : name}</h5>
         <p className="card-text">{`${servings} servings | ${caloriesPerServing} calories per serving`}</p>
         <p className="card-text">{`Difficulty: ${difficulty}`}</p>
         <p className="card-text">{`Cuisine: ${cuisine}`}</p>
