@@ -30,8 +30,8 @@ const MealsCard = ({ recipe, onSelect, onDelete }) => {
 
   const truncateInstructions = (instructions) => {
     const combinedInstructions = instructions.join('. ') + '.';
-    return combinedInstructions.length > 100
-      ? combinedInstructions.substring(0, 100) + '...'
+    return combinedInstructions.length > 90
+      ? combinedInstructions.substring(0, 90) + '...'
       : combinedInstructions;
   };
 
